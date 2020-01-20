@@ -1,0 +1,28 @@
+{
+  "name": "gql-basics",
+  "version": "1.0.0",
+  "description": "basics of graphql",
+  "main": "index.js",
+  "scripts": {
+    "start": "node build/index.js",
+    "dev": "nodemon --exec babel-node src/index.js",
+    "build": "babel src --out-dir build"
+  },
+  "author": "Jorge Acero",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/node": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "babel-plugin-import-graphql": "^2.7.0",
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.8.3",
+    "fastify": "^2.11.0",
+    "fastify-gql": "^3.0.0",
+    "graphql-jit": "^0.4.2",
+    "graphql-tools": "^4.0.6"
+  }
+}
