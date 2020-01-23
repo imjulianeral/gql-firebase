@@ -1,10 +1,10 @@
-# HyperBlazingFastSuperDuperLightSpeedServer - THE Node Server
+# GQL Blog
 
-A node.js server boilerplate for building blazing fast apps with fastify & GraphQL.
+A fastify & GraphQL app for Blog.
 
 Technologies used:
 * Fastify
 * Fastify-GQL
 * Babel 7
-* GraphQL
+* GraphQL: Queries, Mutations & Subscriptions
 * GraphQL-jit
