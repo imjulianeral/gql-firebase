@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node build/index.js",
-    "dev": "nodemon --exec babel-node src/index.js",
+    "dev": "nodemon --ext js,gql --exec babel-node src/index.js",
     "build": "babel src --out-dir build"
   },
   "author": "Jorge Acero",
@@ -16,7 +16,8 @@
     "@babel/node": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
     "babel-plugin-import-graphql": "^2.7.0",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "uuid": "^3.4.0"
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.3",

@@ -3,7 +3,8 @@ import GQL from 'fastify-gql';
 import { makeExecutableSchema } from 'graphql-tools';
 
 import typeDefs from './schema.gql';
-import resolvers from './resolvers';
+import resolvers from './resolvers/resolvers';
+import db from './db';
 
 const app = Fastify();
 const port = 4000 || process.env.PORT;
@@ -13,6 +14,11 @@ app.register(GQL, {
     graphiql: 'playground',
     routes: true,
     jit: 1,
+    async context(request, reply) {
+        return await {
+            db
+        }
+    },
     subscription: true
 });
 
