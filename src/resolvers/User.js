@@ -1,10 +1,14 @@
 const User = {
-    posts(parent, args, { db }, info) {
-        return db.posts.filter(post => post.author === parent.id);
-    },
-    comments(parent, args, { db }, info) {
-        return db.comments.filter(comment => comment.author === parent.id);
-    }
-};
+  async children(parent, args, { db }, info) {
+    const father = await db.collection('users').doc(parent.id)
 
-export default User;
+    const userChildren = await db
+      .collection('children')
+      .where('parent', '==', father)
+      .get()
+
+    return userChildren.docs.map(child => Object.assign(child.data(), { id: child.id }))
+  }
+}
+
+export default User

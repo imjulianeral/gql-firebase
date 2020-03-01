@@ -1,33 +1,46 @@
 const Query = {
-    me(parent, args, { db }, info) {
-        return db.users[0];
-    },
-    post(parent, args, { db }, info) {
-        return db.posts[0];
-    },
-    users(parent, args, { db }, info) {
-        if (args.query) {
-            // return  users.filter(user => user.name === args.query);
-            return db.users.filter(user => user.name.toLowerCase().includes(args.query.toLowerCase()));
-        } else {
-            return db.users;
-        }
-    },
-    posts(parent, args, { db }, info) {
-        if (args.query) {
-            return db.posts.filter(post => {
-                const titleSearch = post.title.toLowerCase().includes(args.query.toLowerCase());
-                const bodySearch = post.body.toLowerCase().includes(args.query.toLowerCase());
+  async users(parent, args, { db }, info) {
+    if (args.query) {
+      // return db.users.filter(user => user.name.toLowerCase().includes(args.query.toLowerCase()));
+      const users = await db
+        .collection('users')
+        .where('email', '==', args.query)
+        .get()
 
-                return titleSearch || bodySearch;
-            });
-        } else {
-            return db.posts;
-        }
-    },
-    comments(parent, args, { db }, info) {
-        return db.comments;
+      return users.docs.map(user => user.data())
+    } else {
+      const users = await db.collection('users').get()
+
+      return users.docs.map(user =>
+        Object.assign(user.data(), {
+          id: user.id,
+          createdAt: user.data().createdAt._seconds
+        })
+      )
     }
-};
+  },
+  async singleUser(parent, args, { db }, info) {
+    const user = await db.doc(`users/${args.id}`).get()
 
-export default Query;
+    return Object.assign(user.data(), { id: user.id }) || new Error('ID not found')
+  },
+  async children(parent, args, { db }, info) {
+    const children = await db.collection(`children`).get()
+
+    return children.docs.map(child => Object.assign(child.data(), { id: child.id }))
+  }
+  // posts(parent, args, { db }, info) {
+  //     if (args.query) {
+  //         return db.posts.filter(post => {
+  //             const titleSearch = post.title.toLowerCase().includes(args.query.toLowerCase());
+  //             const bodySearch = post.body.toLowerCase().includes(args.query.toLowerCase());
+
+  //             return titleSearch || bodySearch;
+  //         });
+  //     } else {
+  //         return db.posts;
+  //     }
+  // }
+}
+
+export default Query
